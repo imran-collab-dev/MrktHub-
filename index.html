@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MrktHub</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Inter',Arial;
+background:#f3f4f6;
+}
+
+/* NAVBAR */
+
+header{
+background:#111827;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 20px;
+flex-wrap:wrap;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+}
+
+nav{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+nav input{
+padding:6px;
+border-radius:6px;
+border:none;
+}
+
+/* TIMER */
+
+.timer{
+background:#10b981;
+color:white;
+text-align:center;
+padding:10px;
+font-weight:bold;
+}
+
+/* SLIDER */
+
+.slider{
+position:relative;
+}
+
+.slider img{
+width:100%;
+height:280px;
+object-fit:cover;
+}
+
+.slider-text{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+color:white;
+text-align:center;
+text-shadow:0 3px 8px rgba(0,0,0,0.6);
+}
+
+/* CATEGORY */
+
+.categories{
+display:flex;
+gap:15px;
+background:white;
+padding:10px 20px;
+border-bottom:1px solid #ddd;
+flex-wrap:wrap;
+}
+
+.categories span{
+cursor:pointer;
+font-weight:bold;
+}
+
+/* PRODUCTS */
+
+.products{
+padding:20px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+}
+
+.product{
+background:white;
+padding:15px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
+transition:0.3s;
+position:relative;
+}
+
+.product:hover{
+transform:translateY(-6px);
+}
+
+.product img{
+width:100%;
+height:160px;
+object-fit:cover;
+border-radius:6px;
+}
+
+.sale{
+position:absolute;
+top:10px;
+left:10px;
+background:red;
+color:white;
+padding:4px 8px;
+font-size:12px;
+border-radius:4px;
+}
+
+.new{
+position:absolute;
+top:10px;
+right:10px;
+background:#f59e0b;
+color:white;
+padding:4px 8px;
+border-radius:4px;
+}
+
+button{
+background:#10b981;
+border:none;
+color:white;
+padding:8px 12px;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#059669;
+}
+
+/* CART */
+
+.cart{
+padding:20px;
+background:white;
+}
+
+.cart-item{
+display:flex;
+justify-content:space-between;
+border-bottom:1px solid #ddd;
+padding:8px;
+}
+
+/* POPUP */
+
+#message{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#10b981;
+color:white;
+padding:10px;
+border-radius:6px;
+display:none;
+}
+
+/* CONCLUSION */
+
+.conclusion{
+background:#e0f2fe;
+padding:30px;
+text-align:center;
+margin:20px;
+border-radius:10px;
+}
+
+/* TEAM */
+
+.team{
+background:#f1f5f9;
+padding:40px;
+text-align:center;
+margin:20px;
+border-radius:10px;
+}
+
+.team-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:15px;
+margin-top:20px;
+}
+
+.member{
+background:white;
+padding:15px;
+border-radius:8px;
+font-weight:bold;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+.member:hover{
+transform:translateY(-5px);
+background:#10b981;
+color:white;
+}
+
+/* CONTACT US */
+
+.contact{
+background:#fff3bf;
+padding:30px;
+margin:20px;
+border-radius:10px;
+text-align:center;
+}
+
+.contact form{
+margin-top:15px;
+display:inline-block;
+text-align:left;
+max-width:400px;
+width:100%;
+}
+
+.contact input, .contact textarea{
+width:100%;
+padding:8px;
+margin-bottom:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+/* FOOTER */
+
+footer{
+background:#111827;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">MrktHub</div>
+
+<nav>
+<a href="#products">Products</a>
+<a href="#cart">Cart (<span id="cartCount">0</span>)</a>
+<a href="#contact">Contact</a>
+<input id="searchInput" placeholder="Search">
+</nav>
+
+</header>
+
+<div class="timer">
+Flash Sale Ends In: <span id="countdown"></span>
+</div>
+
+<!-- SLIDER -->
+
+<div class="slider">
+
+<img id="slideImage" src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8">
+
+<div class="slider-text">
+<h1>Welcome to MrktHub</h1>
+<p>Your student marketplace</p>
+</div>
+
+</div>
+
+<!-- CATEGORY -->
+
+<div class="categories">
+<span onclick="filterProducts('all')">All</span>
+<span onclick="filterProducts('school')">School</span>
+<span onclick="filterProducts('electronics')">Electronics</span>
+<span onclick="filterProducts('fashion')">Fashion</span>
+</div>
+
+<!-- PRODUCTS -->
+
+<section class="products" id="products">
+
+<div class="product" data-category="electronics">
+<div class="sale">SALE</div>
+<img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df">
+<h3>Wireless Earbuds</h3>
+<p>$49.99</p>
+<button onclick="addToCart('Earbuds',49.99)">Add</button>
+</div>
+
+<div class="product" data-category="school">
+<div class="new">NEW</div>
+<img src="https://images.unsplash.com/photo-1581605405669-fcdf81165afa">
+<h3>Student Backpack</h3>
+<p>$39.99</p>
+<button onclick="addToCart('Backpack',39.99)">Add</button>
+</div>
+
+<div class="product" data-category="electronics">
+<img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c">
+<h3>Desk Lamp</h3>
+<p>$24.99</p>
+<button onclick="addToCart('Lamp',24.99)">Add</button>
+</div>
+
+<div class="product" data-category="school">
+<img src="https://images.unsplash.com/photo-1517842645767-c639042777db">
+<h3>Notebook Set</h3>
+<p>$14.99</p>
+<button onclick="addToCart('Notebook',14.99)">Add</button>
+</div>
+
+<div class="product" data-category="fashion">
+<img src="https://images.unsplash.com/photo-1520975916090-3105956dac38">
+<h3>Hoodie</h3>
+<p>$34.99</p>
+<button onclick="addToCart('Hoodie',34.99)">Add</button>
+</div>
+
+<div class="product" data-category="fashion">
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff">
+<h3>Sports Shoes</h3>
+<p>$59.99</p>
+<button onclick="addToCart('Shoes',59.99)">Add</button>
+</div>
+
+<div class="product" data-category="school">
+<img src="https://images.unsplash.com/photo-1526406915894-7bcd65f60845">
+<h3>Water Bottle</h3>
+<p>$9.99</p>
+<button onclick="addToCart('Bottle',9.99)">Add</button>
+</div>
+
+</section>
+
+<!-- CONCLUSION -->
+
+<section class="conclusion">
+
+<h2>About MrktHub</h2>
+
+<p>
+MrktHub is a student e-commerce website where users can browse products,
+search items, filter categories and add products to a shopping cart.
+</p>
+
+</section>
+
+<!-- TEAM -->
+
+<section class="team">
+
+<h2>Our Team</h2>
+
+<div class="team-grid">
+
+<div class="member">IMRAN</div>
+<div class="member">MOHAMMED</div>
+<div class="member">AMAREKENU</div>
+<div class="member">ABENEZER</div>
+<div class="member">BERKET BELHU</div>
+<div class="member">YEABSIRA</div>
+<div class="member">FIKREAB</div>
+
+</div>
+
+</section>
+
+<!-- CONTACT -->
+
+<section class="contact" id="contact">
+
+<h2>Contact Us</h2>
+
+<p>If you have any questions or feedback, reach out to us!</p>
+
+<form onsubmit="alert('Message sent!'); return false;">
+
+<label for="name">Name:</label><br>
+<input type="text" id="name" required><br>
+
+<label for="email">Email:</label><br>
+<input type="email" id="email" required><br>
+
+<label for="messageField">Message:</label><br>
+<textarea id="messageField" required></textarea><br>
+
+<button type="submit">Send Message</button>
+
+</form>
+
+<p style="margin-top:10px;">📧 email@mrkthub.com | 📞 (555) 123-4567</p>
+
+</section>
+
+<!-- CART -->
+
+<section class="cart" id="cart">
+
+<h2>Your Cart</h2>
+
+<div id="cartItems"></div>
+
+<h3>Total: $<span id="total">0</span></h3>
+
+<button onclick="checkout()">Checkout</button>
+
+</section>
+
+<div id="message">Item added to cart</div>
+
+<footer>
+
+<p>© 2026 MrktHub – Student Web Project</p>
+
+</footer>
+
+<script>
+
+let slides=[
+"https://images.unsplash.com/photo-1517336714731-489689fd1ca8",
+"https://images.unsplash.com/photo-1580910051070-1dc2e8439d36",
+"https://images.unsplash.com/photo-1587446556321-7dc7b8b6a74c"
+];
+
+let index=0;
+
+setInterval(()=>{
+index=(index+1)%slides.length;
+document.getElementById("slideImage").src=slides[index];
+},3000);
+
+let cart=[];
+
+function addToCart(name,price){
+
+cart.push({name,price});
+
+updateCart();
+
+let msg=document.getElementById("message");
+
+msg.style.display="block";
+
+setTimeout(()=>msg.style.display="none",1500);
+
+}
+
+function updateCart(){
+
+let items=document.getElementById("cartItems");
+
+let total=0;
+
+items.innerHTML="";
+
+cart.forEach((item,i)=>{
+
+total+=item.price;
+
+items.innerHTML+=`
+<div class="cart-item">
+${item.name} - $${item.price}
+<button onclick="removeItem(${i})">X</button>
+</div>`;
+
+});
+
+document.getElementById("total").innerText=total.toFixed(2);
+
+document.getElementById("cartCount").innerText=cart.length;
+
+}
+
+function removeItem(i){
+
+cart.splice(i,1);
+
+updateCart();
+
+}
+
+function checkout(){
+
+alert("Order placed successfully!");
+
+cart=[];
+
+updateCart();
+
+}
+
+document.getElementById("searchInput").addEventListener("keyup",function(){
+
+let value=this.value.toLowerCase();
+
+document.querySelectorAll(".product").forEach(p=>{
+
+p.style.display=p.innerText.toLowerCase().includes(value)?"block":"none";
+
+});
+
+});
+
+function filterProducts(category){
+
+document.querySelectorAll(".product").forEach(p=>{
+
+if(category==="all"||p.dataset.category===category){
+
+p.style.display="block";
+
+}else{
+
+p.style.display="none";
+
+}
+
+});
+
+}
+
+let time=3600;
+
+setInterval(()=>{
+
+let m=Math.floor(time/60);
+
+let s=time%60;
+
+document.getElementById("countdown").innerText=m+"m "+s+"s";
+
+time--;
+
+},1000);
+
+</script>
+
+</body>
+</html>
